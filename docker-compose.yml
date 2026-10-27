@@ -1,0 +1,24 @@
+services:
+  # Production : build optimisé servi par Nginx -> http://localhost:8080
+  front:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: coach-front:latest
+    container_name: coach-front
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+  # Développement : ng serve avec rechargement à chaud -> http://localhost:4200
+  front-dev:
+    profiles: ["dev"]
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: coach-front-dev
+    ports:
+      - "4200:4200"
+    volumes:
+      - .:/app
+      - /app/node_modules
